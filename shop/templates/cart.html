@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+    <div class="card mb-4 p-4 has-text-weight-bold is-size-4">
+        <a class="button has-text-left is-danger" href="{% url 'shop:products_list' %}">Back to main page</a>
+        {% if cart_item %}
+            <a class="button has-text-right is-info" href="{% url 'shop:create_order' %}">Checkout</a>
+        {% endif %}
+        <hr>
+        <div class="columns has-text-centered">
+            <div class="column">
+                <div class="content">Items: {{ total_quantity }}</div>
+            </div>
+            <div class="column">
+                <div class="content">Total: {{ total_price }} sum</div>
+            </div>
+        </div>
+    </div>
+    <div class="card p-5">
+        <div class="content">
+            {% if cart_item %}
+                <table class="has-text-centered">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>Item</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in cart_item %}
+
+                        <tr>
+                            <td>
+                                <img src="{{ item.product.thumb.url }}" alt="" width="100" height="100">
+                            </td>
+                            <td>{{ item }}</td>
+                            <td>
+                                {{ item.product.price }} sum
+                            </td>
+                            <td>
+                                {{ item.quantity }}
+                                <div class="quantity ml-3">
+                                    <a href="{% url 'shop:edit_cart_item' item.id %}?action=add">
+                                        <h1 class="title">+</h1>
+                                    </a>
+                                    <a href="{% url 'shop:edit_cart_item' item.id %}?action=take">
+                                        <h1 class="title">-</h1>
+                                    </a>
+                                </div>
+                            </td>
+                            <td>
+                                {{ item.total_price }} sum
+                            </td>
+                            <td>
+                                <a href="{% url 'shop:delete_cart_item' item.pk %}"
+                                   style="font-size: 20px; color: black">
+                                    <ion-icon name="trash-outline"></ion-icon>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="title is-2 has-text-grey has-text-centered">Nothing added</p>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}
+

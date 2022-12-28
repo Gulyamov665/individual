@@ -1,0 +1,14 @@
+<aside class="menu has-background-info-light p-4" style="height: 750px; border-radius: 10px">
+   <p class="menu-label is-size-3">
+       Categories
+   </p>
+   <ul class="menu-list">
+       {% for category in categories %}
+           <li>
+               <a href="{% url 'shop:products_list' %}?category={{ category.pk }}" class="dropdown-item is-size-5">
+                   {{ category }}
+               </a>
+           </li>
+       {% endfor %}
+   </ul>
+</aside>
